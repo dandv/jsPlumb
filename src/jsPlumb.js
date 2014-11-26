@@ -2964,11 +2964,11 @@
     }, jsPlumbAdapter);
 
 // --------------------- static instance + AMD registration -------------------------------------------	
-	
-// create static instance and assign to window if window exists.	
+
+// create static instance and assign to window if window exists.
 	var jsPlumb = new jsPlumbInstance();
 	// register on window if defined (lets us run on server)
-	if (typeof window != 'undefined') window.jsPlumb = jsPlumb;	
+	if (typeof window != 'undefined') window.jsPlumb = jsPlumb;
 	// add 'getInstance' method to static instance
 	jsPlumb.getInstance = function(_defaults) {
 		var j = new jsPlumbInstance(_defaults);
@@ -2980,12 +2980,18 @@
 		define( "jsplumb", [], function () { return jsPlumb; } );
 		define( "jsplumbinstance", [], function () { return jsPlumb.getInstance(); } );
 	}
- // CommonJS 
+ // CommonJS
 	if (typeof exports !== 'undefined') {
-      exports.jsPlumb = jsPlumb;
-  	}
-	
-	
-// --------------------- end static instance + AMD registration -------------------------------------------		
-	
+		exports.jsPlumb = jsPlumb;
+	}
+
+
+// --------------------- end static instance + AMD registration -------------------------------------------
+
 })();
+
+if (typeof Package !== 'undefined') {
+  /*global d3:true*/  // Meteor.js creates a file-scope global for exporting. This comment prevents a potential JSHint warning.
+  jsPlumb = window.jsPlumb;
+  delete window.jsPlumb;
+}
